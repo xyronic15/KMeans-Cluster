@@ -9,8 +9,12 @@ Data Structure Final Project
 | KMeans   | Creates a points obj. 1. centroid initialization. 2. loop --> initialization step and update step |                                                                                             |         | [ ]        |
 
 
+
 #### Input
 points.txt
 
 #### Output
 centroids.txt
+=======
+
+*There's also a visio sequence diagram that we can use to help visualize the process a bit better. The initialization process is already there but if you hav anything you want to add or change then go ahead*
