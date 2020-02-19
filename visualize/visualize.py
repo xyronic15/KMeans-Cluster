@@ -5,7 +5,7 @@ from scipy.spatial import Voronoi, voronoi_plot_2d
 
 
 try:
-    points = np.genfromtxt('../input/inp_points.txt', delimiter = ' ')
+    points = np.genfromtxt('../input/points.txt', delimiter = ' ')
     m, n = points.shape
 
     x = np.array(points[:, :-1])
