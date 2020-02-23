@@ -1,3 +1,5 @@
+import java.lang.Math;
+
 public class Points2D{
 
     private float coord_x;//x coordinate
@@ -31,6 +33,10 @@ public class Points2D{
 
     public int getCluster(){
         return clusterId;
+    }
+
+    public float getDistance(Points2D centroid){
+        return (float)Math.sqrt(Math.pow(centroid.get_y() - this.coord_y, 2) + Math.pow(centroid.get_x() - this.coord_x, 2));
     }
 
 }
