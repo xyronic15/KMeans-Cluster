@@ -10,6 +10,7 @@ try:
 
     x = np.array(points[:, :-1])
     y = np.array(points[:, -1:]) # We do -1: to make sure the shape of y is (m,1) instead of (m,)
+    plt.scatter(x, y, marker = 'o', label='data points')
 except:
     print("cannot open input/points.txt")
 
@@ -19,12 +20,11 @@ try:
 
     vor = Voronoi(centroids)
     voronoi_plot_2d(vor)
+    plt.scatter(c_x, c_y, marker = 'o', label='centroids')
 except:
     print("cannot open output/centroids.txt")
 
 try:
-    plt.scatter(x, y, marker = 'o', label='data points')
-    plt.scatter(c_x, c_y, marker = 'o', label='centroids')
     plt.show()
 except:
     print("plotting failed")
