@@ -38,5 +38,11 @@ public class Points2D{
     public float getDistance(Points2D centroid){
         return (float)Math.sqrt(Math.pow(centroid.get_y() - this.coord_y, 2) + Math.pow(centroid.get_x() - this.coord_x, 2));
     }
+    
+    public String toString()
+    {
+		return "(" + this.get_x() + ", " + this.get_y() + ")";
+    	
+    }
 
 }
