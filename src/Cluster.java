@@ -23,7 +23,12 @@ public class Cluster {
     public List<Integer> get_pointsIds(){
         return pointIds;
     }
-
+    
+    public void addPointIds(int p_id)
+    {
+    	this.pointIds.add(p_id);
+    }
+    
     public Points2D getCentroid(){
         return centroid;
     }
