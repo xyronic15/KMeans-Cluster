@@ -34,20 +34,21 @@ public class Cluster {
     }
 
     public void newCentroid(List<Points2D> p){
+  
         if (this.pointIds.isEmpty()){
             return;
         } else {
             float sum_x = 0;
             float sum_y = 0;
             int numPoints = this.pointIds.size();
-
+            
             for(Integer id : this.pointIds){
                 sum_x += p.get(id).get_x();
                 sum_y += p.get(id).get_y();
             }
 
-            float new_x = sum_x / numPoints;
-            float new_y = sum_y / numPoints;
+            float new_x = sum_x / (float) numPoints;
+            float new_y = sum_y / (float) numPoints;
             this.centroid.set_x(new_x);
             this.centroid.set_y(new_y);
 

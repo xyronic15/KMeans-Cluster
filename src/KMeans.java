@@ -10,7 +10,7 @@ public class KMeans
 	KMeans(String filename, int K) throws NumberFormatException, IOException
 	{
 		
-		System.out.println("Kmeans constructor");
+		//System.out.println("Kmeans constructor");
 		this.K = K;
 		
 		// Read file extract points into points
@@ -44,7 +44,7 @@ public class KMeans
 	
 	void init()
 	{
-		System.out.println("Init entered");
+		//System.out.println("Init entered");
 		clusterList = new ArrayList<Cluster>();
 		
 		// Initialize clusters in clusterList with sequential IDs
@@ -69,9 +69,9 @@ public class KMeans
 			c = new Cluster(i, points.get(genRand));
 			clusterList.add(c);
 
-			System.out.println("Point #" + genRand + " is " + this.points.get(genRand).toString());
+			//System.out.println("Point #" + genRand + " is " + this.points.get(genRand).toString());
 		}
-		System.out.println();
+//		//System.out.println();
 	}
 	
 	// Maybe obsolete
@@ -79,7 +79,7 @@ public class KMeans
 	{
 		for(int i=0;i<p.size(); i++)
 		{
-			System.out.println(p.get(i));
+			//System.out.println(p.get(i));
 		}
 	}
 
@@ -88,8 +88,8 @@ public class KMeans
 	{
 		for(int i=0;i<K; i++)
 		{
-			System.out.println("Cluster #" + i);
-			System.out.print(clusterList.get(i).get_pointsIds());
+			//System.out.println("Cluster #" + i);
+			//System.out.print(clusterList.get(i).get_pointsIds());
 		}	
 	}
 	
@@ -101,7 +101,7 @@ public class KMeans
 		{
 			centroids.add(clusterList.get(i).getCentroid());
 		}
-		System.out.println("Centroids are: " + centroids);
+		//System.out.println("Centroids are: " + centroids);
 		return centroids;
 	}
 	
@@ -110,9 +110,10 @@ public class KMeans
 	{
 		for(int i=0; i<K; i++)
 		{
+			//System.out.println("Cluster points" + clusterList.get(i).get_pointsIds());
 			clusterList.get(i).clear_pointsIds();
 		}
-		System.out.println("Cleared all points in every cluster");
+		//System.out.println("Cleared all points in every cluster");
 	}
 	
 	
@@ -139,10 +140,11 @@ public class KMeans
 			
 			// Add pointId to cluster to keep track of what points it has
 			clusterList.get(closestCluster).addPointIds(point.get_id());
+			System.out.println(clusterList.get(closestCluster).pointIds);
 			
 			System.out.println("Closest cluster to point #" + point.get_id() + " is " + closestCluster);
 		}
-		System.out.println();
+//		System.out.println();
 	}
 	
 	// Recalculate centroids (based on the points associated with it) for each cluster
@@ -157,41 +159,55 @@ public class KMeans
 	void calculate()
 	{
 		boolean finish = false;
-		boolean quit_flag = false;
-		List <Points2D> old_centroids;
-		List <Points2D> new_centroids;
-		
+		int K_matches = 1;
+		int counter = 0;
 		while(finish == false)
 		{
-			old_centroids = this.getCentroids();
+			
+			List <Points2D> old_centroids = this.getCentroids();
+//			System.out.println("old_centroids: " + old_centroids);
 			
 			this.clear();
 			this.assignPoints();
 			this.calculateCentroids();
 			
-			new_centroids = this.getCentroids();
+			List <Points2D> new_centroids = this.getCentroids();
+//			System.out.println("new_centroids: " + new_centroids);
 			
 			// Iterate over centroids
 			for(int i = 0; i < K; i++)
 			{
 				// The bottom condition should not run if the old and new centroids are the same
-				if(old_centroids.get(i).equals(new_centroids.get(i)) == false)
+				if(old_centroids.get(i).equals(new_centroids.get(i)))
 				{
-					quit_flag = true;
+					K_matches++;
 				}
 			}
-			// Whenever there is at least one centroid that does 
-			// 	not match the old_centroid, then we continue iterating
-			if(quit_flag == false)
+			if(K_matches == this.K) 
 			{
 				finish = true;
 			}
 			else
 			{
-				quit_flag = false;
-			}		
+				K_matches = 0;
+			}
+//			counter++;
+			
+//			for(int i = 0; i < K; i++)
+//			{
+//				// The bottom condition should not run if the old and new centroids are the same
+//				if(old_centroids.get(i).equals(new_centroids.get(i))==false)
+//				{
+//					finish=false;
+//					break;
+//				}
+//				else
+//				{
+//					finish=true;
+//				}
+//			}
+	
 
-			System.out.println("Looping...");
 		}
 		
 	}
