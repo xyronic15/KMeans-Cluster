@@ -59,7 +59,11 @@ public class KMeans
 	
 	void printClusters() 
 	{
-		
+		System.out.println("All the Clusters: ");
+
+		for (Cluster a : clusterList) {
+			System.out.println(a);
+		}
 	}
 	
 	List<Points2D> getCentroids()
