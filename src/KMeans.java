@@ -140,11 +140,11 @@ public class KMeans
 			
 			// Add pointId to cluster to keep track of what points it has
 			clusterList.get(closestCluster).addPointIds(point.get_id());
-			System.out.println(clusterList.get(closestCluster).pointIds);
+			//System.out.println(clusterList.get(closestCluster).pointIds);
 			
-			System.out.println("Closest cluster to point #" + point.get_id() + " is " + closestCluster);
+			//System.out.println("Closest cluster to point #" + point.get_id() + " is " + closestCluster);
 		}
-//		System.out.println();
+		//System.out.println();
 	}
 	
 	// Recalculate centroids (based on the points associated with it) for each cluster
@@ -161,18 +161,19 @@ public class KMeans
 		boolean finish = false;
 		int K_matches = 1;
 		int counter = 0;
-		while(finish == false)
+		while(counter < 10)
 		{
 			
 			List <Points2D> old_centroids = this.getCentroids();
-//			System.out.println("old_centroids: " + old_centroids);
+			System.out.println("old_centroids: " + old_centroids);
 			
 			this.clear();
 			this.assignPoints();
 			this.calculateCentroids();
 			
 			List <Points2D> new_centroids = this.getCentroids();
-//			System.out.println("new_centroids: " + new_centroids);
+			System.out.println("new_centroids: " + new_centroids);
+			System.out.println();
 			
 			// Iterate over centroids
 			for(int i = 0; i < K; i++)
@@ -183,15 +184,20 @@ public class KMeans
 					K_matches++;
 				}
 			}
+			
+			outputCentroids("output/"+ counter + "_centroids.txt");
+			
 			if(K_matches == this.K) 
 			{
+//				System.out.println("final old_centroids: " + old_centroids);
+//				System.out.println("final new_centroids: " + new_centroids);
 				finish = true;
 			}
 			else
 			{
 				K_matches = 0;
 			}
-//			counter++;
+			counter++;
 			
 //			for(int i = 0; i < K; i++)
 //			{
@@ -209,7 +215,7 @@ public class KMeans
 	
 
 		}
-		
+		System.out.println("Finished");
 	}
 	
 	void outputCentroids(String filename)
