@@ -83,7 +83,6 @@ public class KMeans {
 			this.clusterList.add(c);
 		}
 	}
-<<<<<<< HEAD
 
 	// Iterates over each cluster and returns a centroid
 	Points2D[] getCentroids() {
@@ -95,36 +94,6 @@ public class KMeans {
 			centroids[i] = p;
 		}
 		return centroids;
-=======
-	
-	void printClusters() 
-	{
-		System.out.println("All the Clusters: ");
-
-		for (Cluster a : clusterList) {
-			System.out.println(a);
-		}
-	}
-	
-	List<Points2D> getCentroids()
-	{
-		return null;
-	}
-	
-	void clear()
-	{
-		
-	}
-	
-	void assignPoints()
-	{
-		
-	}
-	
-	void calculateCentroids()
-	{
-		
->>>>>>> fbbd878044f9b551b32f964c6595978d4c71b1fb
 	}
 
 	// Iterate over clusters, and clear Arraylist containing the associated pointIds
@@ -199,9 +168,9 @@ public class KMeans {
 				K_matches = 0;
 			}
 		}
-		
+
 		System.out.println("K: " + this.K + ", Iterations: " + iterations);
-		
+
 	}
 
 	// Outputs centroids to new file
