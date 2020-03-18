@@ -1,138 +1,188 @@
 import java.util.*;
-import java.io.*; 
-
-public class KMeans 
-{
-	private List <Points2D> points;
-	private List <Cluster> clusterList;
-	private int K;
-	
-	KMeans(String filename, int K) throws NumberFormatException, IOException
-	{
-		this.K = K;
-		
-		// Read file extract points into points
-		this.points = new ArrayList<Points2D>();
-		this.parsePoints(filename);
-		this.printPoints();
-	}
-	
-	void parsePoints(String filename) throws NumberFormatException, IOException
-	{
-        BufferedReader br  = new BufferedReader(new BufferedReader(new FileReader(filename)));
-       
-        String[] delimited; 
-        String line;
-        Points2D p;
-        
-        while((line = br.readLine()) != null)
-        {
-        	delimited = line.split(" ");
-        	p = new Points2D(Float.valueOf(delimited[0]), Float.valueOf(delimited[1]));
-            this.points.add(p);
-        } 
-	}
-	
-	void init()
-	{
-		clusterList = new ArrayList<Cluster>();
-		// Initialize clusters in clusterList with sequential IDs
-		Random rand;
-		for(int i=0; i<K; i++)
-		{
-			//Choose a random point from the known set to initialize at
-			rand = new Random();
-			
-			Cluster c = new Cluster(i, points.get(rand.nextInt(this.points.size())));
-			clusterList.add(c);
-		}
-	}
-	
-	void printPoints()
-	{
-		System.out.println("All the points: ");
-		for(int i=0;i<points.size(); i++)
-		{
-			System.out.println(points.get(i));
-		}
-	}
-	
-	void printClusters() 
-	{
-		
-	}
-	
-	List<Points2D> getCentroids()
-	{
-		return null;
-	}
-	
-	void clear()
-	{
-		
-	}
-	
-	void assignPoints()
-	{
-		
-	}
-	
-	void calculateCentroids()
-	{
-		
-	}
-	
-	void calculate()
-	{
-		
-	}
-	
-}
+import java.io.*;
 
 /*
-List <Points2D> points; ------------------------------------------------------------
+ * Author: Group 13
+ * Date: 03/01/2020
+ * Purpose: This class defines a KMeans blueprint that contains main algorithm implementations.
+ */
+public class KMeans {
+	private List<Points2D> points; // ArrayList of the actual Point2D objects
+	private List<Cluster> clusterList; // ArrayList of cluster objects
+	private int K; // The number of expected clusters (K) is predefined
 
-int numClusters; ------------------------------------------------------------
+	// Constructor initializes
+	KMeans(String filename, int K) throws NumberFormatException, IOException {
+		this.K = K;
 
-List <Clusters> clusterList; ------------------------------------------------------------ 
+		// Read file extract points into points ArrayList
+		this.points = new ArrayList<Points2D>();
+		this.parsePoints(filename);
 
-KMeans(String file, int K){//Initialize K, read the file and extract points} ------------------------------------------------------------
+		// Initialize clusters
+		this.init();
 
-void init(); // Initialize clusters in clusterList with sequential ids  ------------------------------------------------------------
+	}
 
-void printPoints();  ------------------------------------------------------------
-void printClusters(); ------------------------------------------------------------
+	// reads the given file containing input points and append to points array
+	void parsePoints(String filename) throws NumberFormatException, IOException {
+		BufferedReader br = new BufferedReader(new BufferedReader(new FileReader(filename)));
 
-List2D<Point2D>  getCentroids(); ------------------------------------------------------------
+		String[] delimited;
+		String line;
+		Points2D p;
+		int i = 0;
 
-void clear() -------------------------------------------------------------------------------
-//Iterate through each cluster and call the cluster’s clear_closest_points() method 
-//If the cluster.get_closest_points().isEmpty()
+		// Keep reading until end of file
+		while ((line = br.readLine()) != null) {
 
-void assignPoints();
-//For each point, calculate distances between itself and each cluster's centroid
-//Set the point.cluster_id to the cluster that is closest to it
-//Add the id of the point to the cluster.points
+			// X and Y coordinates are space delimited
+			delimited = line.split(" ");
 
-void calculateCentroids();
-//For each cluster 
-//             pass points to it and call newCentroid()
+			// Create a new point
+			p = new Points2D(i, Float.valueOf(delimited[0]), Float.valueOf(delimited[1]));
 
-Void  calculate()
-{
-Boolean finish = false;
+			// Add it to points ArrayList
+			this.points.add(p);
+			i++;
+		}
+		br.close();
+	}
 
-while(!finish){
-List<Point2D> current_Centroids = getCentroids();
-clear()
+	// Standard cluster initializer
+	// Initializes clusters such that centroids are located at a random input point
+	// Pros: better than random value initialization as centroid is guaranteed to be
+	// within bounds
+	// Cons: Centroids may be close together yielding a suboptimal solution
+	void init() {
 
-assignPoints()
+		this.clusterList = new ArrayList<Cluster>();
 
-calculateCentroids();
+		// Keep track of ids where another cluster is intialized to prevent multiple
+		// clusters from being intialized
+		List<Integer> taken_ids = new ArrayList<Integer>();
+		Cluster c;
+		int genRand;
 
-List <Point2D> new_centroids = getCentroids();
+		for (int i = 0; i < this.K; i++) {
 
-//if checking the two centroid lists is true then finish =true
-//else checking the two centroid lists is false then finish =false
-	
-*/
+			Random rand = new Random();
+
+			// Choose a random point from the known input list
+			// Make sure no collisions occur during cluster initialization
+			// So keep looping until unique point is found
+			do {
+				genRand = rand.nextInt(this.points.size());
+			} while (taken_ids.contains(genRand));
+
+			// Add the randomly generated point to the taken_ids ArrayList
+			taken_ids.add(genRand);
+
+			// Initialize clusters in clusterList with sequential IDs
+			c = new Cluster(i, points.get(genRand));
+			this.clusterList.add(c);
+		}
+	}
+
+	// Iterates over each cluster and returns a centroid
+	Points2D[] getCentroids() {
+
+		Points2D[] centroids = new Points2D[this.K];
+		for (int i = 0; i < this.K; i++) {
+			// Invoke copy constructor to create a new point
+			Points2D p = new Points2D(this.clusterList.get(i).getCentroid());
+			centroids[i] = p;
+		}
+		return centroids;
+	}
+
+	// Iterate over clusters, and clear Arraylist containing the associated pointIds
+	void clear() {
+
+		for (int i = 0; i < K; i++) {
+			clusterList.get(i).clear_pointsIds();
+		}
+	}
+
+	// Assignment step, two-way assigning of closest points to each cluster
+	void assignPoints() {
+
+		// Iterate over each point
+		for (Points2D point : this.points) {
+
+			float minDist = Float.MAX_VALUE;
+			int closestCluster = 0; // By default set to 0
+
+			// Find out which cluster is closest to the point (Euclidean distance)
+			for (Cluster cluster : this.clusterList) {
+				float dist = point.getDistance(cluster.getCentroid());
+				if (dist < minDist) {
+					minDist = dist;
+					closestCluster = cluster.getId();
+				}
+			}
+			// POV of Point2D object: Add clusterId to point
+			point.setCluster(closestCluster);
+
+			// POV of Cluster object: Add pointId to cluster
+			this.clusterList.get(closestCluster).addPointIds(point.get_id());
+		}
+	}
+
+	// Recalculate centroid of each cluster
+	void calculateCentroids() {
+		for (Cluster cluster : this.clusterList) {
+			cluster.newCentroid(this.points);
+		}
+	}
+
+	// Master loop that runs the update step until centroids stabilize
+	void calculate() {
+
+		boolean finish = false;
+		int K_matches = 0;
+		int iterations = 1;
+
+		while (!finish) {
+
+			Points2D[] old_centroids = this.getCentroids();
+
+			this.clear(); // Clear old points associated with each cluster
+			this.assignPoints(); // Re-assign new points to each cluster (and vice-versa)
+			this.calculateCentroids(); // Update centroid for each cluster
+
+			Points2D[] new_centroids = this.getCentroids();
+
+			// Iterate over centroids
+			for (int i = 0; i < K; i++) {
+				// Add 1 to K_matches for each centroid that remains unchanged
+				if (old_centroids[i].equals(new_centroids[i])) {
+					K_matches++;
+				}
+			}
+
+			if (K_matches == this.K) {
+				finish = true;
+			} else {
+				iterations++;
+				K_matches = 0;
+			}
+		}
+		
+		System.out.println("K: " + this.K + ", Iterations: " + iterations);
+		
+	}
+
+	// Outputs centroids to new file
+	void outputCentroids(String filename) {
+		try (FileWriter writer = new FileWriter(filename); BufferedWriter bw = new BufferedWriter(writer)) {
+			Points2D[] centroids = this.getCentroids();
+			for (Points2D centroid : centroids) {
+				bw.write(centroid.get_x() + " " + centroid.get_y() + "\n");
+			}
+		} catch (IOException e) {
+			System.err.format("IOException: %s%n", e);
+		}
+	}
+
+}
