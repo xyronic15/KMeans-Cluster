@@ -11,10 +11,12 @@ try:
 except:
     print("cannot open input/points.txt")
 
-for i in range(10):
+min_K = 2
+max_K = 4
+for i in range(min_K, max_K+1):
 
     try:
-        centroids = np.genfromtxt(f'../output/{i}_centroids.txt', delimiter = ' ')
+        centroids = np.genfromtxt(f'../output/centroids_K={i}.txt', delimiter = ' ')
         c_x = np.array(centroids[:,0])
         c_y = np.array(centroids[:,1])
         
