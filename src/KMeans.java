@@ -97,28 +97,25 @@ public class KMeans {
 		//Retrieving unique point id for first centroid
 		genRand = rand.nextInt(this.points.size());
 		
-		likelyNextCentroid = findFurthestPoints(1, genRand);
+		findFurthestPoints(1, genRand);
 		
-		for(Integer i : likelyNextCentroid) {
+		likelyNextCentroid = this.furthestPoints;
+
+		for(int i=0;i<this.K;i++) {
 			c = new Cluster(i, this.points.get(likelyNextCentroid.get(i)));
 			this.clusterList.add(c);
 		}
 		
 	}
 	
+	//furthestPoints are the point ID's of the points furthest from the first centroid
+	private ArrayList<Integer> furthestPoints = new ArrayList<Integer>();
+	
 	//Recursive method for finding the furthest points from the first centroid
-	//Returns ArrayList furthestPoints
-	ArrayList<Integer> findFurthestPoints(int i, int centroidID){
-		
-		//furthestPoints are the point ID's of the points furthest from the first centroid
-		ArrayList<Integer> furthestPoints = new ArrayList<Integer>();
-		
-		// Keep track of ids where another cluster is intialized to prevent multiple
-		// clusters from being intialized
-		List<Integer> taken_ids = new ArrayList<Integer>();
+	Object findFurthestPoints(int i, int centroidID){
 		
 		//Add centroid to furthestPoints
-		furthestPoints.add(centroidID);
+		this.furthestPoints.add(centroidID);
 		
 		//distance between points and centroid
 		float distance = 0;
@@ -127,11 +124,11 @@ public class KMeans {
 		float max = 0;
 		
 		//furthest point from current centroid
-		Points2D furthest = null;
+		Points2D furthest = new Points2D(0,0);
 		
 		if(i==this.K) {
-			return furthestPoints;
-		}else if(furthestPoints.size()==1){
+			return null;
+		}else if(this.furthestPoints.size()==1){
 			//Iterate through each point in the points ArrayList
 			//Find the point furthest from the first
 			for (Points2D point : this.points) {
@@ -146,7 +143,7 @@ public class KMeans {
 			return findFurthestPoints(i+1,this.points.indexOf(furthest));
 		}else {
 			//Calculate the point directly between all existing centroids
-			Points2D center = meanPoint(furthestPoints);
+			Points2D center = meanPoint(this.furthestPoints);
 			
 			//Iterate through each point in the points ArrayList
 			//Find the point furthest from the center
@@ -166,14 +163,13 @@ public class KMeans {
 	Points2D meanPoint(ArrayList<Integer> centIDs) {
 		//ArrayList to hold the actual points of the centroids
 		List<Points2D> cents = new ArrayList<Points2D>();
-		cents.clear();
 		
 		//Mean Point to be returned
-		Points2D mean = null;
+		Points2D mean = new Points2D(0,0);
 		
 		//Iterate through centIDs to add the actual points to cents
 		for(Integer i : centIDs) {
-			cents.add(this.points.get(centIDs.get(i)));
+			cents.add(this.points.get(i));
 		}
 		
 		//Get average x and y values of each centroid and set it to mean
