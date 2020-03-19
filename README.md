@@ -1,22 +1,30 @@
-# KMeans-Cluster
-Data Structure Final Project
+# K-Means Clustering Algorithm
+
+The code demonstrates the usage of the K-Means clustering algorithm. We tried to replicate how the algorithm is used in industry by testing data classification with a variety of K clusters and then visually inspecting. In the image below, we test K values of 2-4.
+
+![Comparison of different K values](visualize/Figure_1.png)
+
+Here we can see that K=4 fits the data the best.
+
+To visualize the boundaries between clusters, we can use a Voronoi diagram:
+
+![Voronoi diagram of K=4](visualize/Figure_2.png)
+
+### Input Location: 
+input/points.txt (space delimited x & y float values)
+### Output Location: 
+output/centroids.txt (space delimited x & y float values)
+
+#### Steps to run (cmd)
+1. run `cd KMeans-Cluster/src/`
+2. run `javac Run.java`
+3. run `java Run`
+
+#### Steps to run (eclipse)
+1. right click `KMeans-Cluster/src/Run.java` --> run as --> java application
 
 
-![Git Cheat Sheet](https://i.redd.it/8341g68g1v7y.png)
-
-#### Input
-points.txt
-
-#### Output
-centroids.txt
+**Note: upon running the code, see `visualize/README.md` for instructions on visualizing the data**
 
 
-*There's also a visio sequence diagram that we can use to help visualize the process a bit better. The initialization process is already there but if you hav anything you want to add or change then go ahead*
 
-
-| Class | Description | Class Members (Pseudocode) | Asignee | Completion |
-|-----------|---------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|------------|
-| Point2D | Represents one point in 2D  | float coord_x;<br>float coord_y;<br>Cluster cluster;<br><br>Point2D(coord_x, coord_y){//Initialize}<br><br>float getX();<br>float getY();<br><br>void setX(float x);<br>void setY(float y);<br><br>float getDistance(cluster);<br> |  | [ ] |
-| Cluster | Represents one cluster | <br>int id;<br>Point2D centroid;<br>ArrayList Points; // Change to list if needed<br><br>Cluster(int id){//Initialize}<br>Cluster(int id, Point2D centroid){//Initialize}<br><br>int getId();<br>Point2D getCentroid();<br>Point2D setCentroid();<br><br><br>ArrayList getPoints();<br>void setPoints(ArrayList Points); //Maybe not<br><br>//MORE HERE<br> |  | [ ] |
-| KClusters | Maybe |  |  | [ ] |
-| KMeans | Creates a points obj. 1. centroid initialization. 2. loop --> initialization step and update step | List <Points2D> points;<br><br>int numClusters;<br><br>List <Clusters> clusterList;<br><br>KMeans(String file, int K){//Initialize K, read the file and extract points}<br><br>void init(); // Initialize centroids in clusterList with sequential ids <br>void update();<br><br>void printPoints(); <br>void printClusters();<br><br>void calculate(){<br>    List distances(cluster, points); //<br>    void clearClusters(); // Resets cluster centroids and points;<br>    void assignCluster(); // Associates points to the closest cluster<br>    void calculateCentroids(); // Finds the clusters' points' mean<br>}<br>void outputClusters(Filename f); |  | [ ] |
