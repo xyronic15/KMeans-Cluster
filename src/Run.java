@@ -14,18 +14,19 @@ public class Run {
 		
 		// In practice, we cannot always notice distinct clusters, so we try range of K values 
 		// We test using K values: 2,3,4 to see what fits the data the best
-		for(int i=2;i<5; i++)
-		{
-			// Create KMeans object of K value i
-			KMeans kmeans = new KMeans("input/points.txt", i);
-			
-			// Start the algorithm
-			kmeans.calculate();
-			
-			// Output to specific file with distinct name which indicates centroid number
-			kmeans.outputCentroids(String.format("output/centroids_K=%s.txt", i));			
-		}
+//		for(int i=2;i<5; i++)
+//		{
+//			// Create KMeans object of K value i
+//			KMeans kmeans = new KMeans("input/points.txt", i);
+//			
+//			// Start the algorithm
+//			kmeans.calculate();
+//			
+//			// Output to specific file with distinct name which indicates centroid number
+//			kmeans.outputCentroids(String.format("output/centroids_K=%s.txt", i));			
+//		}
 		
+		KMeans kmeans = new KMeans("input/points.txt", 3);
 	}
 
 }

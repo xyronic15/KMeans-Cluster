@@ -52,7 +52,9 @@ public class KMeans {
 
 	
 	//K-means++ cluster initializer
-	//initializes first centroid as random input then finds the points that are furthest from it
+	//initializes first centroid as random input then finds the point that is furthest from it as the next centroid
+	//then finds the mean point between the existing centroids and then find the point furthest from it to choose as a centroid
+	//iterates until K centroids found
 	//Pros: better than picking inputs that are close together as centroids
 	//Cons: May not necessarily be better in all situations than standard cluster initialization
 	void init() {
@@ -61,9 +63,9 @@ public class KMeans {
 
 		// Keep track of ids where another cluster is intialized to prevent multiple
 		// clusters from being intialized
-		List<Integer> taken_ids = new ArrayList<Integer>();
+//		List<Integer> taken_ids = new ArrayList<Integer>();
 		//Used for holding the points furthest from the first centroid chosen
-		List<Integer> likelyNextCentroid = new ArrayList<Integer>();
+		ArrayList<Integer> likelyNextCentroid;
 		Cluster c;
 		int genRand;
 
@@ -92,25 +94,105 @@ public class KMeans {
 		// Find the next few points that are furthest from the first centroid
 		// initialize the rest of the clusters with the points furthest from the first centroid
 		
-		//Retrieving unique point id
+		//Retrieving unique point id for first centroid
 		genRand = rand.nextInt(this.points.size());
 		
-		// Initialize first cluster in clusterList
-		c = new Cluster(0, points.get(genRand));
-		this.clusterList.add(c);
+		likelyNextCentroid = findFurthestPoints(1, genRand);
 		
-		
-		
-		for(int i = 1; i<this.K;i++) {
-			
+		for(Integer i : likelyNextCentroid) {
+			c = new Cluster(i, this.points.get(likelyNextCentroid.get(i)));
+			this.clusterList.add(c);
 		}
 		
 	}
 	
 	//Recursive method for finding the furthest points from the first centroid
 	//Returns ArrayList furthestPoints
-	ArrayList<Integer> findFurthestPoints(){
+	ArrayList<Integer> findFurthestPoints(int i, int centroidID){
 		
+		//furthestPoints are the point ID's of the points furthest from the first centroid
+		ArrayList<Integer> furthestPoints = new ArrayList<Integer>();
+		
+		// Keep track of ids where another cluster is intialized to prevent multiple
+		// clusters from being intialized
+		List<Integer> taken_ids = new ArrayList<Integer>();
+		
+		//Add centroid to furthestPoints
+		furthestPoints.add(centroidID);
+		
+		//distance between points and centroid
+		float distance = 0;
+		
+		//max distance between point and centroid
+		float max = 0;
+		
+		//furthest point from current centroid
+		Points2D furthest = null;
+		
+		if(i==this.K) {
+			return furthestPoints;
+		}else if(furthestPoints.size()==1){
+			//Iterate through each point in the points ArrayList
+			//Find the point furthest from the first
+			for (Points2D point : this.points) {
+				distance = this.points.get(centroidID).getDistance(point);
+				if(distance > max) {
+					max = distance;
+					furthest = point;
+				}
+			}
+			
+			//call this method
+			return findFurthestPoints(i+1,this.points.indexOf(furthest));
+		}else {
+			//Calculate the point directly between all existing centroids
+			Points2D center = meanPoint(furthestPoints);
+			
+			//Iterate through each point in the points ArrayList
+			//Find the point furthest from the center
+			for (Points2D point : this.points) {
+				distance = center.getDistance(point);
+				if(distance > max) {
+					max = distance;
+					furthest = point;
+				}
+			}
+			
+			//call this method
+			return findFurthestPoints(i+1, this.points.indexOf(furthest));
+		}
+	}
+
+	Points2D meanPoint(ArrayList<Integer> centIDs) {
+		//ArrayList to hold the actual points of the centroids
+		List<Points2D> cents = new ArrayList<Points2D>();
+		cents.clear();
+		
+		//Mean Point to be returned
+		Points2D mean = null;
+		
+		//Iterate through centIDs to add the actual points to cents
+		for(Integer i : centIDs) {
+			cents.add(this.points.get(centIDs.get(i)));
+		}
+		
+		//Get average x and y values of each centroid and set it to mean
+		float sum_x = 0;
+		float sum_y = 0;
+		int numPoints = cents.size();
+
+		for (Points2D cent : cents) {
+			sum_x += cent.get_x();
+			sum_y += cent.get_y();
+		}
+
+		float new_x = sum_x / (float) numPoints;
+		float new_y = sum_y / (float) numPoints;
+		mean.set_x(new_x);
+		mean.set_y(new_y);
+		
+		//Return the mean point of existing centroids
+		return mean;
 	}
 
 	// Iterates over each cluster and returns a centroid
