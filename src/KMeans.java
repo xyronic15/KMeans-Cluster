@@ -49,11 +49,12 @@ public class KMeans {
 		br.close();
 	}
 
-	// Standard cluster initializer
-	// Initializes clusters such that centroids are located at a random input point
-	// Pros: better than random value initialization as centroid is guaranteed to be
-	// within bounds
-	// Cons: Centroids may be close together yielding a suboptimal solution
+
+	
+	//K-means++ cluster initializer
+	//initializes first centroid as random input then finds the points that are furthest from it
+	//Pros: better than picking inputs that are close together as centroids
+	//Cons: May not necessarily be better in all situations than standard cluster initialization
 	void init() {
 
 		this.clusterList = new ArrayList<Cluster>();
@@ -61,27 +62,55 @@ public class KMeans {
 		// Keep track of ids where another cluster is intialized to prevent multiple
 		// clusters from being intialized
 		List<Integer> taken_ids = new ArrayList<Integer>();
+		//Used for holding the points furthest from the first centroid chosen
+		List<Integer> likelyNextCentroid = new ArrayList<Integer>();
 		Cluster c;
 		int genRand;
 
-		for (int i = 0; i < this.K; i++) {
-
-			Random rand = new Random();
-
-			// Choose a random point from the known input list
-			// Make sure no collisions occur during cluster initialization
-			// So keep looping until unique point is found
-			do {
-				genRand = rand.nextInt(this.points.size());
-			} while (taken_ids.contains(genRand));
-
-			// Add the randomly generated point to the taken_ids ArrayList
-			taken_ids.add(genRand);
-
-			// Initialize clusters in clusterList with sequential IDs
-			c = new Cluster(i, points.get(genRand));
-			this.clusterList.add(c);
+//		for (int i = 0; i < this.K; i++) {
+//
+//			Random rand = new Random();
+//
+//			// Choose a random point from the known input list
+//			// Make sure no collisions occur during cluster initialization
+//			// So keep looping until unique point is found
+//			do {
+//				genRand = rand.nextInt(this.points.size());
+//			} while (taken_ids.contains(genRand));
+//
+//			// Add the randomly generated point to the taken_ids ArrayList
+//			taken_ids.add(genRand);
+//
+//			// Initialize clusters in clusterList with sequential IDs
+//			c = new Cluster(i, points.get(genRand));
+//			this.clusterList.add(c);
+//		}
+		
+		Random rand = new Random();
+		
+		// Choose a random point from the known input list and set as the first centroid
+		// Find the next few points that are furthest from the first centroid
+		// initialize the rest of the clusters with the points furthest from the first centroid
+		
+		//Retrieving unique point id
+		genRand = rand.nextInt(this.points.size());
+		
+		// Initialize first cluster in clusterList
+		c = new Cluster(0, points.get(genRand));
+		this.clusterList.add(c);
+		
+		
+		
+		for(int i = 1; i<this.K;i++) {
+			
 		}
+		
+	}
+	
+	//Recursive method for finding the furthest points from the first centroid
+	//Returns ArrayList furthestPoints
+	ArrayList<Integer> findFurthestPoints(){
+		
 	}
 
 	// Iterates over each cluster and returns a centroid
