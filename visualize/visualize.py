@@ -13,41 +13,42 @@ except:
 
 
 min_K = 2
-max_K = 4
+max_K = 7
 
-fig, axs = plt.subplots(max_K-min_K+1, figsize=(15,15))
-fig.suptitle('K-Means Test', fontsize=16)
-
-count = 0
-
+# Iterate over the K range
 for i in range(min_K, max_K+1):
 
-    try:
-        centroids = np.genfromtxt(f'../output/centroids_K={i}.txt', delimiter = ' ')
-        c_x = np.array(centroids[:,0])
-        c_y = np.array(centroids[:,1])
+    # We will use a 3x2 subplots to show 6 trials for each K value
+    fig_title = f'K-Means Test, K={i}'
+    fig, axs = plt.subplots(3, 2, figsize=(15,15))
+    fig.canvas.set_window_title(fig_title)
+    fig.suptitle(fig_title, fontsize=16)
 
-        axs[count].plot(c_x, c_y, 'o', x, y, 'x')
-        axs[count].set_title(f'K={i}')
-        count+=1
+    col = 0
+    row = 0
 
-    except:
-        print(f'cannot open output/centroids_K={i}.txt')
+    for j in range(0, 6):
 
-plt.show()
+        try:
+            centroids = np.genfromtxt(f'../output/centroids_K={i}_trial={j}.txt', delimiter = ' ')
+            c_x = np.array(centroids[:,0])
+            c_y = np.array(centroids[:,1])
 
-try:
+            axs[row][col].plot(x, y, 'x', label='data')
+            axs[row][col].plot(c_x, c_y, 'o', label='centroid')
 
-    centroids = np.genfromtxt('../output/centroids_K=4.txt', delimiter = ' ')
-    c_x = np.array(centroids[:,0])
-    c_y = np.array(centroids[:,1])
+            axs[row][col].set_title(f'K={i}, trial={j+1}')
+            axs[row][col].legend()
 
-    vor = Voronoi(centroids)
-    voronoi_plot_2d(vor)
+            if(col==0):
+                col=1
+            else:
+                row+=1
+                col=0
 
-    plt.scatter(x, y, marker = 'o', label='data points')
-    plt.scatter(c_x, c_y, marker = 'o', label='centroids')
+        except:
+            print(f'cannot open output/centroids_K={i}_trial={j}.txt')
+
+    # Plot once all subplots are shown
+    plt.savefig(fig_title + '.png')
     plt.show()
-
-except:
-    print("plotting failed")
