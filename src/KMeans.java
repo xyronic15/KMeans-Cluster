@@ -19,9 +19,6 @@ public class KMeans {
 		this.points = new ArrayList<Points2D>();
 		this.parsePoints(filename);
 
-		// Initialize clusters
-		this.init();
-
 	}
 
 	// reads the given file containing input points and append to points array
@@ -61,6 +58,7 @@ public class KMeans {
 		// Keep track of ids where another cluster is intialized to prevent multiple
 		// clusters from being intialized
 		List<Integer> taken_ids = new ArrayList<Integer>();
+		// Used for holding the points furthest from the first centroid chosen
 		Cluster c;
 		int genRand;
 
@@ -82,6 +80,7 @@ public class KMeans {
 			c = new Cluster(i, points.get(genRand));
 			this.clusterList.add(c);
 		}
+
 	}
 
 	// Iterates over each cluster and returns a centroid
@@ -169,7 +168,7 @@ public class KMeans {
 			}
 		}
 
-		System.out.println("K: " + this.K + ", Iterations: " + iterations);
+		System.out.println("K: " + this.K + ", Iterations per trial: " + iterations);
 
 	}
 
