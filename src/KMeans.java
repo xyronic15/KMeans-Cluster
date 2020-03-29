@@ -22,7 +22,7 @@ public class KMeans {
 	}
 
 	// reads the given file containing input points and append to points array
-	void parsePoints(String filename) throws NumberFormatException, IOException {
+	private void parsePoints(String filename) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new BufferedReader(new FileReader(filename)));
 
 		String[] delimited;
@@ -84,7 +84,7 @@ public class KMeans {
 	}
 
 	// Iterates over each cluster and returns a centroid
-	Points2D[] getCentroids() {
+	private Points2D[] getCentroids() {
 
 		Points2D[] centroids = new Points2D[this.K];
 		for (int i = 0; i < this.K; i++) {
@@ -96,7 +96,7 @@ public class KMeans {
 	}
 
 	// Iterate over clusters, and clear Arraylist containing the associated pointIds
-	void clear() {
+	private void clear() {
 
 		for (int i = 0; i < K; i++) {
 			clusterList.get(i).clear_pointsIds();
@@ -104,7 +104,7 @@ public class KMeans {
 	}
 
 	// Assignment step, two-way assigning of closest points to each cluster
-	void assignPoints() {
+	private void assignPoints() {
 
 		// Iterate over each point
 		for (Points2D point : this.points) {
@@ -129,14 +129,14 @@ public class KMeans {
 	}
 
 	// Recalculate centroid of each cluster
-	void calculateCentroids() {
+	private void calculateCentroids() {
 		for (Cluster cluster : this.clusterList) {
 			cluster.newCentroid(this.points);
 		}
 	}
 
 	// Master loop that runs the update step until centroids stabilize
-	void calculate() {
+	public void calculate() {
 
 		boolean finish = false;
 		int K_matches = 0;
@@ -173,7 +173,7 @@ public class KMeans {
 	}
 
 	// Outputs centroids to new file
-	void outputCentroids(String filename) {
+	public void outputCentroids(String filename) {
 		try (FileWriter writer = new FileWriter(filename); BufferedWriter bw = new BufferedWriter(writer)) {
 			Points2D[] centroids = this.getCentroids();
 			for (Points2D centroid : centroids) {

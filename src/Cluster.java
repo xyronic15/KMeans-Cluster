@@ -26,7 +26,7 @@ public class Cluster {
 		this.pointIds.clear();
 	}
 
-	public List<Integer> get_pointsIds() {// return ArrayList containing pointIds
+	private List<Integer> get_pointsIds() {// return ArrayList containing pointIds
 		return this.pointIds;
 	}
 

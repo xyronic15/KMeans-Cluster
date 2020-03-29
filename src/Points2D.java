@@ -57,7 +57,7 @@ public class Points2D {
 		this.clusterId = c;
 	}
 
-	public int getCluster() {// return clusterId
+	private int getCluster() {// return clusterId
 		return this.clusterId;
 	}
 
@@ -67,7 +67,7 @@ public class Points2D {
 	}
 
 	// Overriding toString() method to print a point in the following format (x, y)
-	public String toString() {
+	private String toString() {
 		return "(" + this.get_x() + ", " + this.get_y() + ")";
 
 	}
