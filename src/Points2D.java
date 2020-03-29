@@ -1,5 +1,3 @@
-import java.lang.Math;
-
 /*
  * Author: Group 13
  * Date: 03/01/2020
@@ -61,7 +59,7 @@ public class Points2D {
 		return this.clusterId;
 	}
 
-	// Returns the distance 
+	// Returns the distance between a point and itself
 	public float getDistance(Points2D centroid) {
 		return (float) Math.sqrt(Math.pow(centroid.get_y() - this.get_y(), 2) + Math.pow(centroid.get_x() - this.get_x(), 2));
 	}
