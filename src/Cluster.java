@@ -1,4 +1,5 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /*
  * Author: Group 13
@@ -26,7 +27,7 @@ public class Cluster {
 		this.pointIds.clear();
 	}
 
-	private List<Integer> get_pointsIds() {// return ArrayList containing pointIds
+	public List<Integer> get_pointsIds() {// return ArrayList containing pointIds
 		return this.pointIds;
 	}
 
