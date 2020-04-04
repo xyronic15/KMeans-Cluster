@@ -19,7 +19,7 @@ max_K = 7
 for i in range(min_K, max_K+1):
 
     # We will use a 3x2 subplots to show 6 trials for each K value
-    fig_title = f'K-Means Test, K={i}'
+    fig_title = f'K-Means_K={i}'
     fig, axs = plt.subplots(3, 2, figsize=(15,15))
     fig.canvas.set_window_title(fig_title)
     fig.suptitle(fig_title, fontsize=16)
@@ -37,7 +37,7 @@ for i in range(min_K, max_K+1):
             axs[row][col].plot(x, y, 'x', label='data')
             axs[row][col].plot(c_x, c_y, 'o', label='centroid')
 
-            axs[row][col].set_title(f'K={i}, trial={j+1}')
+            axs[row][col].set_title(f'K={i},_trial={j+1}')
             axs[row][col].legend()
 
             if(col==0):

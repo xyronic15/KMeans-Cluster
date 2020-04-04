@@ -2,7 +2,7 @@
 
 The code demonstrates the usage of the K-Means clustering algorithm. We tried to replicate how the algorithm is used in industry by testing data classification with a variety of K clusters and then visually inspecting. In the image below, we test K values of 2-7.
 
-![Example of K=6](visualize/K-Means Test, K=6.png)
+![Example of K=6](visualize/K-Means_K=6.png)
 
 Here we can see that K=6 Trial=5 fits the data the best.
 
